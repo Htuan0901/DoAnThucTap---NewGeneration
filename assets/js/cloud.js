@@ -184,7 +184,7 @@
       /* Dòng cấu hình (he_thong.cau_hinh) được ghi SAU CÙNG khi tạo dữ liệu mẫu.
          Chưa có dòng này nghĩa là cơ sở dữ liệu còn trống, hoặc lần tạo trước bị gián đoạn
          (ví dụ người dùng chuyển trang khi đang tải lên): tạo lại toàn bộ dữ liệu mẫu. */
-      const inited = (res[META] || []).some((r) => r.id === 'cau_hinh');
+      const inited = (res[META] || []).some((r) => r.id === 'cau_hinh') && (res[TABLES.users] || []).length > 0;   // phải có tài khoản đăng nhập
       if (!inited) {
         const partial = Object.values(TABLES).some((t) => (res[t] || []).length);
         overlay(true, '<div><b>' + (partial ? 'Dữ liệu mẫu lần trước chưa tạo xong.' : 'Cơ sở dữ liệu đang trống.') + '</b><br>Đang tạo dữ liệu mẫu ban đầu, vui lòng chờ và không đóng trang…</div>');
@@ -199,6 +199,7 @@
         Object.keys(TABLES).forEach((c) => { d[c] = []; });
         apply(res, d);
         NG._setDB(d);
+        if (NG.migrate(d)) { NG._setDB(d); dirty = true; await flush(); }   // xóa tài khoản thuộc vai trò đã lược bỏ
       }
       overlay(false);
       status('Đã kết nối cơ sở dữ liệu', 'ok');

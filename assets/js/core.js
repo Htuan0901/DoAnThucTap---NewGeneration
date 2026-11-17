@@ -43,7 +43,7 @@
   };
   let DB = null;
   NG.db = function () {
-    if (!DB) { DB = NG.ls.get(KEY, null); if (!DB || DB.v !== 1) { DB = NG.seed(); NG.save(); } }
+    if (!DB) { DB = NG.ls.get(KEY, null); if (!DB || DB.v !== 1) { DB = NG.seed(); NG.save(); } else if (NG.migrate(DB)) NG.save(); }
     return DB;
   };
   NG.save = function () { NG.ls.set(KEY, DB); if (NG.onSave) NG.onSave(); };

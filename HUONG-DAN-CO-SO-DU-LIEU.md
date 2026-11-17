@@ -57,7 +57,7 @@ window.NG_CONFIG = {
 
 1. Mở địa chỉ website, ví dụ `https://doanthuctap-hoangtuan.netlify.app/app.html`.
 2. Lần đầu tiên, màn hình hiện *Cơ sở dữ liệu đang trống… Đang tạo dữ liệu mẫu*. Website tự đưa khoảng 260 vận đơn, 136 chuyến xe và các danh mục vào cơ sở dữ liệu. Việc này mất vài giây.
-3. Đăng nhập như cũ. Các tài khoản dùng thử đều có mật khẩu `123456`: `dieuphoi`, `kinhdoanh`, `cskh`, `ketoan`, `giamdoc`, `admin`, `taixe`.
+3. Đăng nhập như cũ. Các tài khoản dùng thử đều có mật khẩu `123456`: `dieuphoi`, `kinhdoanh`, `taixe`, `ketoan`, `admin`.
 4. Để kiểm tra, mở website trên máy thứ hai hoặc trên điện thoại. Sửa một khách hàng ở máy này, rồi chuyển trang ở máy kia: thông tin đã đổi theo.
 
 Ở góc dưới bên trái màn hình có một nhãn nhỏ báo trạng thái: *Đã lưu vào cơ sở dữ liệu*, *Đang lưu…* hoặc *Mất kết nối*.

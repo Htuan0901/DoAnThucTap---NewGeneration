@@ -225,7 +225,7 @@
   }
   NG.incCard = incCard;
 
-  /* Xử lý sự cố: điều phối, CSKH ghi hướng xử lý */
+  /* Xử lý sự cố: điều phối ghi hướng xử lý */
   NG.handleIncident = function (t, i) {
     NG.modal('Xử lý sự cố ' + i.id + ' · ' + i.type, '<p class="mut sm" style="margin-bottom:10px">' + esc(i.desc) + '</p><div class="form"><div class="field"><label for="h_a">Hướng xử lý</label><select class="input" id="h_a">' + ['Thông báo khách hàng, thỏa thuận giờ giao mới', 'Đổi thứ tự các điểm giao', 'Điều xe khác hỗ trợ trung chuyển', 'Gọi cứu hộ, sửa xe tại chỗ', 'Hướng dẫn tài xế chờ, tiếp tục hành trình', 'Khác'].map((x) => '<option>' + x + '</option>').join('') + '</select></div>' +
       '<div class="field"><label for="h_n">Ghi chú</label><textarea class="input" id="h_n">' + esc(i.result || '') + '</textarea></div><div class="field"><label for="h_s">Trạng thái sau xử lý</label><select class="input" id="h_s"><option value="dang_xu_ly"' + (i.status === 'moi' ? ' selected' : '') + '>Đang xử lý</option><option value="da_xu_ly"' + (i.status === 'dang_xu_ly' ? ' selected' : '') + '>Đã xử lý xong</option></select></div></div>', (bg) => {
@@ -247,7 +247,7 @@
         const cur = NG.curStop(t);
         t.incidents.push({ id, at: NG.now(), type: bg.querySelector('#i_t').value, desc: bg.querySelector('#i_d').value.trim(), by, stopId: cur ? cur.id : null, status: 'moi', result: '', handledBy: null, handledAt: null, photo });
         t.history.push({ status: t.status, at: NG.now(), by, note: 'Báo sự cố ' + id + ': ' + bg.querySelector('#i_t').value });
-        NG.log('Báo sự cố', id + ' / ' + t.id, by); NG.save(); NG.toast('Đã gửi sự cố ' + id + ' đến điều phối và CSKH.'); bg.remove(); (after || NG.render)();
+        NG.log('Báo sự cố', id + ' / ' + t.id, by); NG.save(); NG.toast('Đã gửi sự cố ' + id + ' đến điều phối.'); bg.remove(); (after || NG.render)();
       };
       const f = bg.querySelector('#i_p').files[0];
       if (f) NG.readImage(f, (data) => save({ name: f.name, data })); else save(null);

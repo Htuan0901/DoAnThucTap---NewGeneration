@@ -46,7 +46,7 @@ window.NG.ready.then(function () {
     const drop = t ? t.stops.find((s) => s.orderId === o.id && s.kind === 'giao' && s.status === 'xong') : null;
     res.innerHTML = '<div class="row" style="justify-content:space-between"><b class="code">' + o.id + '</b>' + NG.badge(o.status) + '</div>' +
       (o.status === 'da_huy' ? '<div class="alert bad" style="margin-top:10px">Vận đơn đã hủy.</div>' : '<div class="stepper">' + S.map((s, i) => '<div class="step ' + (i < idx || o.status === 'da_giao' ? 'done' : i === idx ? 'cur' : '') + '"><div class="c">' + (i < idx || o.status === 'da_giao' ? '✓' : i + 1) + '</div>' + s + '</div>').join('') + '</div>') +
-      (o.status === 'giao_that_bai' ? '<div class="alert warn sm">Lần giao trước chưa thành công. Bộ phận CSKH sẽ liên hệ để hẹn lại thời gian giao.</div>' : '') +
+      (o.status === 'giao_that_bai' ? '<div class="alert warn sm">Lần giao trước chưa thành công. Nhân viên công ty sẽ liên hệ để hẹn lại thời gian giao.</div>' : '') +
       '<dl class="kv sm" style="grid-template-columns:120px 1fr;margin-top:6px"><dt>Giao đến</dt><dd>' + esc(o.dropAddr) + '</dd><dt>Hạn giao</dt><dd>' + NG.fmtDT(o.deliverBy) + '</dd>' +
       (t && t.status !== 'da_huy' ? '<dt>Chuyến xe</dt><dd>' + t.id + ' · xe ' + mask(NG.vehicle(t.vehicleId).plate) + ' · tài xế ' + esc(NG.driver(t.driverId).name.split(' ').slice(-1)[0]) + '</dd>' : '') + pos +
       (drop ? '<dt>Đã giao</dt><dd>' + NG.fmtDT(drop.doneAt) + ' · người nhận ' + esc(drop.pod.name) + ' (đã ký xác nhận)</dd>' : '') + '</dl>';

@@ -64,10 +64,22 @@
     admin: { label: 'Quản trị viên', desc: 'Quản lý tài khoản, phân quyền, danh mục và nhật ký hệ thống', menu: ['tong-quan', 'van-don', 'lap-chuyen', 'chuyen-xe', 'giam-sat', 'doi-soat', 'phuong-tien', 'tai-xe', 'khach-hang', 'bao-cao', 'quan-tri'], perms: ['order.edit', 'trip.plan', 'incident.handle', 'recon', 'fleet.edit', 'price'] },
     dieuphoi: { label: 'Điều phối viên', desc: 'Gom vận đơn thành chuyến, phân công xe và tài xế, giám sát hành trình, xử lý sự cố', menu: ['tong-quan', 'van-don', 'lap-chuyen', 'chuyen-xe', 'giam-sat', 'phuong-tien', 'tai-xe', 'bao-cao'], perms: ['trip.plan', 'incident.handle', 'fleet.edit'] },
     kinhdoanh: { label: 'Nhân viên kinh doanh', desc: 'Tạo vận đơn theo yêu cầu khách hàng, quản lý thông tin khách hàng', menu: ['tong-quan', 'van-don', 'khach-hang'], perms: ['order.edit', 'price'] },
-    cskh: { label: 'Nhân viên CSKH', desc: 'Theo dõi tiến độ giao nhận, thông báo cho khách khi có sự cố hoặc giao thất bại', menu: ['tong-quan', 'van-don', 'giam-sat', 'khach-hang'], perms: ['incident.handle'] },
-    ketoan: { label: 'Kế toán', desc: 'Đối soát quãng đường, nhiên liệu và chi phí của từng chuyến xe', menu: ['tong-quan', 'chuyen-xe', 'doi-soat', 'bao-cao'], perms: ['recon', 'price'] },
-    giamdoc: { label: 'Giám đốc', desc: 'Theo dõi hiệu suất đội xe, tỷ lệ giao đúng hạn và chi phí vận hành', menu: ['tong-quan', 'van-don', 'chuyen-xe', 'giam-sat', 'doi-soat', 'phuong-tien', 'tai-xe', 'bao-cao'], perms: ['price'] },
+    ketoan: { label: 'Kế toán', desc: 'Đối soát quãng đường, nhiên liệu và chi phí của từng chuyến xe, xem báo cáo chi phí', menu: ['tong-quan', 'chuyen-xe', 'doi-soat', 'bao-cao'], perms: ['recon', 'price'] },
     taixe: { label: 'Tài xế', desc: 'Nhận chuyến, cập nhật từng điểm dừng, xác nhận giao nhận, báo sự cố và khai chi phí', menu: ['chuyen-cua-toi'], perms: [] }
+  };
+
+  /* Dọn dữ liệu cũ: bỏ tài khoản thuộc vai trò đã lược bỏ (CSKH, Giám đốc). Trả về true nếu có thay đổi */
+  NG.migrate = function (d) {
+    const n = (d.users || []).length;
+    d.users = (d.users || []).filter((u) => NG.ROLES[u.role]);
+    let changed = d.users.length !== n;
+    /* Bổ sung lại tài khoản kế toán nếu đã bị xóa ở bản 4 vai trò */
+    if (!d.users.some((u) => u.role === 'ketoan')) {
+      let k = 1; while (d.users.some((u) => u.id === 'ND' + String(k).padStart(2, '0'))) k++;
+      d.users.push({ id: 'ND' + String(k).padStart(2, '0'), username: d.users.some((u) => u.username === 'ketoan') ? 'ketoan' + k : 'ketoan', name: 'Hoàng Thu Trang', role: 'ketoan', pass: NG.hash('123456'), phone: '0915938271', createdAt: '2026-06-01T08:00', locked: false });
+      changed = true;
+    }
+    return changed;
   };
 
   NG.seed = function () {
@@ -120,9 +132,7 @@
       { username: 'admin', name: 'Phan Gia Khang', role: 'admin' },
       { username: 'dieuphoi', name: 'Lê Quốc Bảo', role: 'dieuphoi' },
       { username: 'kinhdoanh', name: 'Trần Minh Anh', role: 'kinhdoanh' },
-      { username: 'cskh', name: 'Ngô Thảo Vy', role: 'cskh' },
       { username: 'ketoan', name: 'Hoàng Thu Trang', role: 'ketoan' },
-      { username: 'giamdoc', name: 'Nguyễn Đình Lộc', role: 'giamdoc' },
       { username: 'taixe', name: 'Nguyễn Văn Thành', role: 'taixe', driverId: 'TX01' },
       { username: 'taixe2', name: 'Trần Quốc Huy', role: 'taixe', driverId: 'TX02' }
     ].map((u, i) => Object.assign({ id: 'ND' + String(i + 1).padStart(2, '0'), pass: NG.hash('123456'), phone: '09' + String(10234567 + i * 1234567).slice(0, 8), createdAt: '2026-06-01T08:00', locked: false }, u));

@@ -19,5 +19,5 @@ Mở `index.html` bằng trình duyệt (Chrome, Edge), hoặc chạy `python -m
 4. Sau 1–2 phút trang chạy tại `https://<tên-tài-khoản>.github.io/ng-dispatch/`.
 
 ## Tài khoản dùng thử (mật khẩu 123456)
-dieuphoi, taixe, taixe2, ketoan, cskh, kinhdoanh, giamdoc, admin.
+dieuphoi, kinhdoanh, taixe, taixe2, ketoan, admin.
 Khôi phục dữ liệu mẫu: bấm tên người dùng góc phải › Khôi phục dữ liệu mẫu.
