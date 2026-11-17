@@ -46,7 +46,11 @@
     if (!DB) { DB = NG.ls.get(KEY, null); if (!DB || DB.v !== 1) { DB = NG.seed(); NG.save(); } }
     return DB;
   };
-  NG.save = function () { NG.ls.set(KEY, DB); };
+  NG.save = function () { NG.ls.set(KEY, DB); if (NG.onSave) NG.onSave(); };
+  /* Dùng cho chế độ cơ sở dữ liệu dùng chung (cloud.js): nạp dữ liệu từ máy chủ */
+  NG._setDB = function (d) { DB = d; NG.ls.set(KEY, DB); };
+  NG.ready = Promise.resolve();
+  NG.sync = function () { return Promise.resolve(false); };
   NG.reset = function () { DB = NG.seed(); NG.save(); };
   NG.nextId = function (kind, prefix, pad) { const d = NG.db(); d.seq[kind] = (d.seq[kind] || 0) + 1; return prefix + String(d.seq[kind]).padStart(pad, '0'); };
 

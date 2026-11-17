@@ -1,5 +1,5 @@
 /* Trang web công khai: số liệu, đội xe, tra cứu vận đơn theo từng điểm dừng */
-(function () {
+window.NG.ready.then(function () {
   const NG = window.NG;
   const { esc, $ } = NG;
   const d = NG.db(), C = NG.COMPANY;
@@ -51,4 +51,4 @@
       (t && t.status !== 'da_huy' ? '<dt>Chuyến xe</dt><dd>' + t.id + ' · xe ' + mask(NG.vehicle(t.vehicleId).plate) + ' · tài xế ' + esc(NG.driver(t.driverId).name.split(' ').slice(-1)[0]) + '</dd>' : '') + pos +
       (drop ? '<dt>Đã giao</dt><dd>' + NG.fmtDT(drop.doneAt) + ' · người nhận ' + esc(drop.pod.name) + ' (đã ký xác nhận)</dd>' : '') + '</dl>';
   };
-})();
+});

@@ -66,7 +66,7 @@
     if (fn) fn(view, r); else view.innerHTML = '<p>Đang xây dựng.</p>';
   }
   NG.render = render;
-  window.addEventListener('hashchange', render);
+  window.addEventListener('hashchange', () => { NG.sync().then(render, render); });
 
   /* Gia hạn phiên khi thao tác; tự đăng xuất khi hết hạn */
   let lastTouch = 0;
@@ -104,7 +104,7 @@
       const m = $('.menu-pop');
       m.querySelector('[data-a=pw]').onclick = changePw;
       m.querySelector('[data-a=theme]').onclick = () => { NG.toggleTheme(); m.remove(); };
-      m.querySelector('[data-a=reset]').onclick = () => NG.confirm('Khôi phục dữ liệu mẫu', 'Toàn bộ dữ liệu đã thao tác trên trình duyệt này sẽ được thay bằng dữ liệu mẫu ban đầu. Bạn vẫn giữ phiên đăng nhập.', () => { NG.reset(); NG.toast('Đã khôi phục dữ liệu mẫu.'); render(); }, { danger: true, okText: 'Khôi phục' });
+      m.querySelector('[data-a=reset]').onclick = () => NG.confirm('Khôi phục dữ liệu mẫu', '' + (NG.cloudOn ? 'Toàn bộ dữ liệu trong cơ sở dữ liệu dùng chung (mọi máy đều thấy) sẽ được thay bằng dữ liệu mẫu ban đầu.' : 'Toàn bộ dữ liệu đã thao tác trên trình duyệt này sẽ được thay bằng dữ liệu mẫu ban đầu.') + ' Bạn vẫn giữ phiên đăng nhập.', () => { NG.reset(); NG.toast('Đã khôi phục dữ liệu mẫu.'); render(); }, { danger: true, okText: 'Khôi phục' });
       m.querySelector('[data-a=out]').onclick = () => { NG.logout(); NG.go('#/dang-nhap'); };
     };
   }
@@ -264,5 +264,5 @@
     });
   };
 
-  document.addEventListener('DOMContentLoaded', render);
+  document.addEventListener('DOMContentLoaded', () => { NG.ready.then(render, render); });
 })();
